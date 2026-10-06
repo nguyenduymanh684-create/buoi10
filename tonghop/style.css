@@ -1,0 +1,613 @@
+/* =========================================================
+   PHONG CÁCH LẤY CẢM HỨNG TỪ DORAEMON
+   Màu chủ đạo: xanh Doraemon, đỏ (vòng cổ), vàng (chuông), trắng.
+   Chi tiết đặc trưng: vòng cổ đỏ + chiếc chuông ở navbar và form,
+   hero là đường hầm thời gian nhiều màu đang xoay, túi thần kỳ ở
+   mặt sau thẻ, nền chấm bi, bờ mây ở đáy hero và đỉnh footer.
+   Chỉ mô phỏng phong cách bằng CSS, không vẽ nhân vật.
+   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;900&display=swap');
+
+:root {
+    --mau-nen: #d5eefe;
+    --mau-nen-card: #ffffff;
+    --mau-nen-dam: #0096e0;
+    --mau-chu: #12284c;
+    --mau-chu-phu: #3e5a85;
+    --mau-vien: #12284c;
+    --mau-chinh: #e8202a;            /* đỏ vòng cổ */
+    --mau-chinh-dam: #b8151d;
+    --mau-chinh-rgb: 232, 32, 42;
+    --bong-do: rgba(18, 40, 76, 0.9);
+
+    --xanh: #0096e0;
+    --xanh-dam: #0a5da8;
+    --vang: #ffd800;
+    --muc: #12284c;                  /* nét viền tối */
+    --bong-cung: #12284c;
+    --cham: rgba(255, 255, 255, 0.9);
+    --lien-ket: #0a5da8;
+    --mau-focus: #12284c;
+
+    --font: 'Nunito', 'Trebuchet MS', Arial, sans-serif;
+}
+
+:root.dark,
+body.dark,
+[data-theme="dark"] {
+    --mau-nen: #0b2b5e;
+    --mau-chu: #f2f8ff;
+    --mau-chu-phu: #a9c4ee;
+    --mau-vien: #f2f8ff;
+    --bong-cung: #061a3d;
+    --cham: rgba(255, 255, 255, 0.08);
+    --lien-ket: #8fd0ff;
+    --mau-focus: #ffd800;
+}
+
+/* ----- RESET & BASE ----- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--mau-chu);
+    background:
+        radial-gradient(circle, var(--cham) 7px, transparent 8px) 0 0 / 56px 56px,
+        radial-gradient(circle, var(--cham) 7px, transparent 8px) 28px 28px / 56px 56px,
+        var(--mau-nen);
+    transition: color 0.3s ease;
+}
+
+h1, h2, h3 {
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+h2 {
+    font-size: clamp(28px, 4vw, 42px);
+    margin-bottom: 24px;
+}
+
+a {
+    color: var(--lien-ket);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+a:hover {
+    text-decoration-color: var(--mau-chinh);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+::selection {
+    background: var(--vang);
+    color: var(--muc);
+}
+
+:focus-visible {
+    outline: 4px solid var(--mau-focus);
+    outline-offset: 3px;
+}
+
+.page-container {
+    width: min(92%, 1140px);
+    margin: 0 auto;
+    padding: 64px 0 72px;
+}
+
+/* ----- CHIẾC CHUÔNG: dùng chung cho navbar, thẻ và form ----- */
+.navbar::after,
+.flip-card-front::before,
+form.form-card::after {
+    content: '';
+    position: absolute;
+    border: 3px solid var(--muc);
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 50% 76%, var(--muc) 0 12%, transparent 13%),
+        linear-gradient(transparent 50%, var(--muc) 50% 58%, transparent 58%),
+        radial-gradient(circle at 30% 28%, #fff7a8 0 14%, transparent 15%),
+        var(--vang);
+}
+
+/* ----- NAVBAR: nền xanh, vòng cổ đỏ, chuông treo giữa ----- */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 28px 12px;
+    background: var(--xanh);
+    border-bottom: 10px solid var(--mau-chinh);
+    box-shadow: 0 3px 0 var(--muc);
+}
+
+.navbar::after {
+    left: 50%;
+    bottom: -32px;
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    translate: -50% 0;
+    transform-origin: 50% 0;
+}
+
+@keyframes leng {
+    0%, 100% { rotate: 0deg; }
+    25%      { rotate: 14deg; }
+    50%      { rotate: -12deg; }
+    75%      { rotate: 7deg; }
+}
+
+.navbar:hover::after {
+    animation: leng 0.7s ease;
+}
+
+.navbar .logo {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #fff;
+    text-decoration: none;
+    -webkit-text-stroke: 6px var(--muc);
+    paint-order: stroke fill;
+    text-shadow: 3px 4px 0 var(--mau-chinh);
+}
+
+.nav-links {
+    display: flex;
+    gap: 12px;
+    list-style: none;
+}
+
+.nav-links a,
+#btnToggleTheme {
+    display: inline-block;
+    padding: 4px 18px;
+    border: 3px solid var(--muc);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--muc);
+    font: 800 16px var(--font);
+    text-decoration: none;
+    box-shadow: 0 3px 0 var(--muc);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.nav-links a:hover,
+#btnToggleTheme:hover {
+    background: var(--vang);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 var(--muc);
+}
+
+.nav-links a:active,
+#btnToggleTheme:active {
+    transform: translateY(3px);
+    box-shadow: 0 0 0 var(--muc);
+}
+
+#btnToggleTheme {
+    background: var(--vang);
+}
+
+#btnToggleTheme:hover {
+    background: #fff;
+}
+
+/* ----- HERO: đường hầm thời gian, bờ mây trắng ở đáy ----- */
+.hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    height: 54vh;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px 20px 70px;
+    color: #fff;
+    background: var(--xanh);
+}
+
+@keyframes xoay {
+    to { rotate: 360deg; }
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: -70%;
+    z-index: -2;
+    background: repeating-conic-gradient(
+        from 0deg at 50% 50%,
+        #0096e0 0 10deg,
+        #3db4f7 10deg 20deg,
+        #6f8cff 20deg 30deg,
+        #b07cff 30deg 40deg,
+        #ff8fd0 40deg 50deg,
+        #ffd85e 50deg 60deg
+    );
+    animation: xoay 60s linear infinite;
+}
+
+/* Quầng tối giữa để chữ dễ đọc + hai hàng mây trắng dưới đáy */
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(circle at 30px 40px, #fff 0 32px, transparent 33px) 0 100% / 60px 40px repeat-x,
+        radial-gradient(circle at 45px 44px, #eaf7ff 0 34px, transparent 35px) 0 100% / 90px 44px repeat-x,
+        radial-gradient(ellipse at 50% 45%, rgba(8, 40, 110, 0.6), transparent 68%);
+}
+
+.hero > * {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes bay {
+    0%, 100% { translate: 0 0; }
+    50%      { translate: 0 -9px; }
+}
+
+.hero h1 {
+    font-size: clamp(46px, 8.5vw, 96px);
+    color: #fff;
+    -webkit-text-stroke: 9px var(--muc);
+    paint-order: stroke fill;
+    text-shadow: 5px 7px 0 var(--mau-chinh);
+}
+
+/* Phụ đề bồng bềnh như đang bay */
+.hero p {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 6px 24px;
+    border: 3px solid var(--muc);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--muc);
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 800;
+    box-shadow: 0 4px 0 var(--muc);
+    animation: bay 3s ease-in-out infinite;
+}
+
+/* ----- NÚT CHÍNH: viên thuốc đỏ, nhấn là lún ----- */
+.btn-primary {
+    display: inline-block;
+    margin-top: 26px;
+    padding: 10px 34px;
+    border: 3px solid var(--muc);
+    border-radius: 999px;
+    background: var(--mau-chinh);
+    color: #fff;
+    font: 900 21px var(--font);
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 6px 0 var(--muc);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 var(--muc);
+}
+
+.btn-primary:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 var(--muc);
+}
+
+/* ----- PRODUCT GRID ----- */
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 44px 34px;
+}
+
+/* ----- FLIP CARD: mặt trước có chuông, mặt sau có túi thần kỳ ----- */
+.flip-card {
+    width: 240px;
+    height: 320px;
+    perspective: 1000px;
+}
+
+.flip-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner,
+.flip-card:focus-within .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border: 3px solid var(--muc);
+    border-radius: 28px;
+    box-shadow: 0 8px 0 var(--bong-cung);
+}
+
+.flip-card-front {
+    padding: 14px;
+    background: var(--mau-nen-card);
+    color: var(--muc);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background 0.3s ease;
+}
+
+.flip-card-front::before {
+    top: -14px;
+    right: -10px;
+    z-index: 2;
+    width: 38px;
+    height: 38px;
+    rotate: 10deg;
+}
+
+.flip-card-front img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border: 3px solid var(--muc);
+    border-radius: 18px;
+}
+
+.flip-card-front h3 {
+    margin-top: 10px;
+    font-size: 22px;
+    color: var(--muc);
+}
+
+.flip-card-back {
+    padding: 20px 20px 86px;
+    background:
+        radial-gradient(circle, rgba(255, 255, 255, 0.14) 6px, transparent 7px) 0 0 / 34px 34px,
+        radial-gradient(circle, rgba(255, 255, 255, 0.14) 6px, transparent 7px) 17px 17px / 34px 34px,
+        var(--xanh-dam);
+    color: #fff;
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Chiếc túi thần kỳ: nửa hình tròn trắng ở đáy thẻ */
+.flip-card-back::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    width: 150px;
+    height: 70px;
+    translate: -50% 0;
+    background: #fff;
+    border: 3px solid var(--muc);
+    border-bottom: 0;
+    border-radius: 150px 150px 0 0;
+}
+
+.flip-card-back p {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.btn-mua {
+    display: inline-block;
+    padding: 5px 24px;
+    border: 3px solid var(--muc);
+    border-radius: 999px;
+    background: var(--vang);
+    color: var(--muc);
+    font: 900 17px var(--font);
+    text-decoration: none;
+    box-shadow: 0 4px 0 var(--muc);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-mua:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--muc);
+}
+
+.btn-mua:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--muc);
+}
+
+/* ----- FORM: vòng cổ đỏ + chuông thò ra phía trên ----- */
+form.form-card {
+    position: relative;
+    max-width: 520px;
+    margin: 36px auto 24px;
+    padding: 34px 32px 32px;
+    background: var(--mau-nen-card);
+    color: var(--muc);
+    border: 3px solid var(--muc);
+    border-radius: 28px;
+    box-shadow: 0 8px 0 var(--bong-cung);
+    transition: background 0.3s ease;
+}
+
+form.form-card::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 28px;
+    right: 28px;
+    height: 16px;
+    background: var(--mau-chinh);
+    border: 3px solid var(--muc);
+    border-radius: 999px;
+}
+
+form.form-card::after {
+    top: -34px;
+    left: 50%;
+    z-index: 2;
+    width: 38px;
+    height: 38px;
+    translate: -50% 0;
+}
+
+fieldset {
+    padding: 22px;
+    border: 3px dashed var(--xanh);
+    border-radius: 20px;
+}
+
+legend {
+    padding: 2px 20px;
+    border: 3px solid var(--muc);
+    border-radius: 999px;
+    background: var(--xanh-dam);
+    color: #fff;
+    font-size: 19px;
+    font-weight: 900;
+}
+
+label {
+    display: block;
+    margin-top: 16px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 11px 14px;
+    margin-top: 6px;
+    border: 3px solid var(--muc);
+    border-radius: 16px;
+    background: #eef8ff;
+    color: var(--muc);
+    font: 600 16px var(--font);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--xanh);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(0, 150, 224, 0.3);
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 26px;
+    border: 3px solid var(--muc);
+    border-radius: 999px;
+    background: var(--mau-chinh);
+    color: #fff;
+    font: 900 22px var(--font);
+    cursor: pointer;
+    box-shadow: 0 6px 0 var(--muc);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 var(--muc);
+}
+
+button[type="submit"]:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 var(--muc);
+}
+
+/* ----- FOOTER: nền xanh đậm, đỉnh là bờ mây ----- */
+footer.site-footer {
+    position: relative;
+    margin-top: 24px;
+    padding: 30px 24px 40px;
+    text-align: center;
+    color: #fff;
+    background: var(--xanh-dam);
+    font-size: 15px;
+}
+
+footer.site-footer::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -20px;
+    height: 20px;
+    background: radial-gradient(circle at 30px 20px, var(--xanh-dam) 0 22px, transparent 23px) 0 0 / 60px 20px repeat-x;
+}
+
+/* ----- MÀN HÌNH NHỎ ----- */
+@media (max-width: 640px) {
+    .navbar {
+        padding: 12px 16px 10px;
+    }
+
+    .nav-links {
+        gap: 8px;
+    }
+
+    .nav-links a {
+        padding: 3px 12px;
+    }
+
+    .hero h1 {
+        -webkit-text-stroke-width: 6px;
+    }
+
+    form.form-card {
+        padding: 30px 22px 26px;
+    }
+}
+
+/* ----- Tôn trọng người dùng tắt hiệu ứng ----- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+    }
+}
